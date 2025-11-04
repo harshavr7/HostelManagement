@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Page, Student, Room, FeeStatus } from './types';
 import { INITIAL_STUDENTS, INITIAL_ROOMS } from './constants';
 import { Dashboard } from './components/Dashboard';
@@ -7,6 +7,17 @@ import { StudentManagement } from './components/StudentManagement';
 import { RoomManagement } from './components/RoomManagement';
 import { FeeManagement } from './components/FeeManagement';
 import { DashboardIcon, StudentsIcon, RoomsIcon, FeesIcon, MenuIcon, CloseIcon } from './components/Icons';
+
+// Helper function to get initial state from localStorage or a fallback value
+const getInitialState = <T,>(key: string, fallback: T): T => {
+    try {
+        const storedItem = window.localStorage.getItem(key);
+        return storedItem ? JSON.parse(storedItem) : fallback;
+    } catch (error) {
+        console.warn(`Error reading localStorage key “${key}”:`, error);
+        return fallback;
+    }
+};
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -32,9 +43,27 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, isActive, onClick }) => 
 
 export default function App() {
   const [page, setPage] = useState<Page>('dashboard');
-  const [students, setStudents] = useState<Student[]>(INITIAL_STUDENTS);
-  const [rooms, setRooms] = useState<Room[]>(INITIAL_ROOMS);
+  const [students, setStudents] = useState<Student[]>(() => getInitialState('hostel_students', INITIAL_STUDENTS));
+  const [rooms, setRooms] = useState<Room[]>(() => getInitialState('hostel_rooms', INITIAL_ROOMS));
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Effect to save students to localStorage whenever the state changes
+  useEffect(() => {
+    try {
+        window.localStorage.setItem('hostel_students', JSON.stringify(students));
+    } catch (error) {
+        console.error('Failed to save students to localStorage:', error);
+    }
+  }, [students]);
+
+  // Effect to save rooms to localStorage whenever the state changes
+  useEffect(() => {
+    try {
+        window.localStorage.setItem('hostel_rooms', JSON.stringify(rooms));
+    } catch (error) {
+        console.error('Failed to save rooms to localStorage:', error);
+    }
+  }, [rooms]);
   
   const updateRoomOccupancy = useCallback((updatedStudents: Student[]) => {
       const occupancyMap = new Map<number, number>();
