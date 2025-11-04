@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hostel Hive - Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#1E40AF',
+              'primary-focus': '#1D4ED8',
+              'primary-content': '#FFFFFF',
+              'secondary': '#9333EA',
+              'accent': '#F59E0B',
+              'neutral': '#374151',
+              'base-100': '#F9FAFB',
+              'base-200': '#F3F4F6',
+              'base-300': '#E5E7EB',
+              'info': '#3B82F6',
+              'success': '#10B981',
+              'warning': '#FBBF24',
+              'error': '#EF4444',
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body class="bg-base-100">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
